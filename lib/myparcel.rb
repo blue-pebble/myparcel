@@ -1,7 +1,6 @@
 require 'httparty'
 require 'virtus'
 require 'base64'
-require 'pry'
 
 require 'myparcel/version'
 
