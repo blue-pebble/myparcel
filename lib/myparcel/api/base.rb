@@ -25,9 +25,13 @@ module Myparcel
         when 200..201
           response
         when 422
-          raise "Unprocessable entity for `#{method} #{url}` with #{httparty_options}."
+          data = JSON.parse(response.body)
+          message = data.fetch("message", "Unknown error")
+          errors = data.fetch("errors", []).flat_map {|x| x.fetch("human", [])}
+          details = errors.map {|x| "- #{x}"}.join("\n")
+          raise "Unprocessable entity for `#{method} #{url}` with #{httparty_options}\n#{message}\n#{details}"
         else
-          raise 'Something went wrong'
+          raise "Request failed with status #{response.code}: #{response.body}"
         end
       end
       # rubocop:enable MethodLength
