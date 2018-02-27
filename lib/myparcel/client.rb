@@ -43,6 +43,10 @@ module Myparcel
       @shipments ||= Myparcel::API::Shipments.new(authentication)
     end
 
+    def shipment_labels
+      @shipment_labels ||= Myparcel::API::ShipmentLabels.new(authentication)
+    end
+
     def tracktraces
       @tracktraces ||= Myparcel::API::Tracktraces.new(authentication)
     end
