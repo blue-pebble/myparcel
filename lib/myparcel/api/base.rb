@@ -25,9 +25,9 @@ module Myparcel
         when 200..201
           response
         when 422
-          raise "Unprocessable entity for `#{method} #{url}` with #{httparty_options}."
+          raise UnprocessableEntity.parse(response.body, "Unprocessable entity for `#{method} #{url}` with #{httparty_options}")
         else
-          raise 'Something went wrong'
+          raise "Request failed with status #{response.code}: #{response.body}"
         end
       end
       # rubocop:enable MethodLength
@@ -39,6 +39,42 @@ module Myparcel
         when :unrelated then 'application/vnd.unrelated_return_shipment+json; charset=utf-8'
         else 'application/vnd.shipment+json; charset=utf-8'
         end
+      end
+    end
+
+    class MyparcelError < RuntimeError
+      def format
+        raise "Cannot format abstract error"
+      end
+    end
+
+    private
+
+    class UnprocessableEntity < MyparcelError
+      attr_reader :info, :message, :errors
+
+      def initialize(info, message, errors)
+        @info = info
+        @message = message
+        @errors = errors
+      end
+
+      def self.parse(data, info=nil)
+        payload = JSON.parse(data)
+        message = payload.fetch("message", "Unknown error")
+        errors = payload.fetch("errors", []).flat_map {|x| x.fetch("human", [])}
+        UnprocessableEntity.new(info, message, errors)
+      rescue => e
+        UnprocessableEntity.new(info, "Failed to parse response payload: #{e.class.name}", [e.message])
+      end
+
+      def format
+        if @errors.empty?
+          lines = [@info, @message]
+        else
+          lines = [@info, @message, *errors.map {|x| "- #{x}"}]
+        end
+        lines.compact.join("\n")
       end
     end
   end
