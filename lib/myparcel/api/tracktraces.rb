@@ -222,6 +222,7 @@ module Myparcel
           "H32" => "Shipment not delivered; lack of space. Delivery postponed",
           "H35" => "Shipment is damaged. PostNL contacts the sender",
           "J19" => "Notified and scanned on ride",
+          "Q01" => "Shipment is registered and can be followed",
           "Q11" => "Package attached to packing material",
           "Q12" => "Shipment put on transport",
           "H09" => "Shipment incomplete. Return to Sender",
