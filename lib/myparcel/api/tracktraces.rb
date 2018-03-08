@@ -27,7 +27,7 @@ module Myparcel
       def translate(language, tracktrace)
         codemap = POSTNL_STATUS_CODES.fetch(language)
         tracktrace.update(
-          "description" => codemap.fetch(tracktrace["code"]),
+          "description" => codemap[tracktrace["code"]],
           "history" => tracktrace["history"].map { |hist| hist.update("description" => codemap.fetch(hist["code"])) }
         )
       end
