@@ -22,7 +22,7 @@ module Myparcel
         response = HTTParty.send method, url, httparty_options
 
         case response.code
-        when 200..201
+        when 200..299
           response
         when 422
           raise UnprocessableEntity.parse(response.body, "Unprocessable entity for `#{method} #{url}` with #{httparty_options}")
