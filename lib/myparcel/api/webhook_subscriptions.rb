@@ -20,6 +20,14 @@ module Myparcel
         response['data']['ids']
       end
 
+      def delete(options = {})
+        subscription_ids = options.fetch(:subscription_ids, [])
+        raise ArgumentError, "options[:subscription_ids] must not be empty" if subscription_ids.empty?
+        ids = subscription_ids.join(";")
+        request :delete, "#{path}/#{subscription_ids.join(';')}"
+        nil
+      end
+
       def path
         'webhook_subscriptions'
       end
