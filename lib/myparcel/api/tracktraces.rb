@@ -11,6 +11,12 @@ module Myparcel
         full_path = [path, shipment_ids].join('/')
         response = request :get, full_path, options
         tracktraces = response['data']['tracktraces']
+
+        # For some reason empty tracktraces are represented as [[]] by MyParcel
+        if tracktraces == [[]]
+          return []
+        end
+
         if language == :nl
           tracktraces
         else
