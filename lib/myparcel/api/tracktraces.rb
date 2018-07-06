@@ -186,6 +186,7 @@ module Myparcel
           "Y24" => "Address corrected. New delivery attempt",
           "Y25" => "Shipment is at customs for further processing",
           "Y26" => "Shipment delivered in mailbox",
+          "Y28" => "Shipment is released by customs",
           "Y30" => "Shipment has not been delivered due to incorrect zip code.",
           "Y31" => "Shipment has not been delivered. Zip code is missing.",
           "Y32" => "Shipment has not been delivered. Adress unknown.",
