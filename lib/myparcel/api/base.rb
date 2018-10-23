@@ -3,10 +3,11 @@ module Myparcel
     # Base class for all endpoints
     class Base
       attr_accessor :path
-      attr_reader :authentication
+      attr_reader :authentication, :config
 
-      def initialize(authentication)
+      def initialize(authentication, config={})
         @authentication = authentication
+        @config = config
       end
 
       protected
@@ -17,7 +18,8 @@ module Myparcel
         httparty_options = {
           query: options.fetch(:query, {}),
           body: options.fetch(:body, ''),
-          headers: authentication.headers.update(options[:headers] || {})
+          headers: authentication.headers.update(options[:headers] || {}),
+          timeout: config.fetch(:timeout, 10),
         }
         response = HTTParty.send method, url, httparty_options
 

@@ -39,8 +39,8 @@ module Myparcel
     # client = Myparcel.client('your-api-key')
     # client.shipments.find
     # ```
-    def client(api_key = nil)
-      @client ||= Myparcel::Client.new(api_key)
+    def client(api_key = nil, config={})
+      @client ||= Myparcel::Client.new(api_key, config)
     end
   end
 end

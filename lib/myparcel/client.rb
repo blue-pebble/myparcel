@@ -1,10 +1,11 @@
 module Myparcel
   # Represents a client for the API
   class Client
-    attr_accessor :authentication
+    attr_accessor :authentication, :config
 
-    def initialize(api_key = nil)
+    def initialize(api_key = nil, config={})
       @authentication = Myparcel::Authentication.new(api_key)
+      @config = config
       raise 'No credentials provided' if @authentication.invalid?
     end
 
@@ -16,7 +17,7 @@ module Myparcel
     # client.delivery_options.find({...})
     # ```
     def delivery_options
-      @delivery_options ||= Myparcel::API::DeliveryOptions.new(authentication)
+      @delivery_options ||= Myparcel::API::DeliveryOptions.new(authentication, config)
     end
 
     # Shipments management endpoint
@@ -40,19 +41,19 @@ module Myparcel
     # client.shipments.find(shipment_ids: [1, 2])
     # ```
     def shipments
-      @shipments ||= Myparcel::API::Shipments.new(authentication)
+      @shipments ||= Myparcel::API::Shipments.new(authentication, config)
     end
 
     def shipment_labels
-      @shipment_labels ||= Myparcel::API::ShipmentLabels.new(authentication)
+      @shipment_labels ||= Myparcel::API::ShipmentLabels.new(authentication, config)
     end
 
     def tracktraces
-      @tracktraces ||= Myparcel::API::Tracktraces.new(authentication)
+      @tracktraces ||= Myparcel::API::Tracktraces.new(authentication, config)
     end
 
     def webhooks
-      @webhooks ||= Myparcel::API::WebhookSubscriptions.new(authentication)
+      @webhooks ||= Myparcel::API::WebhookSubscriptions.new(authentication, config)
     end
   end
 end
