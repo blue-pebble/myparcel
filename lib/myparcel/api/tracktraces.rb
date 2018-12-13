@@ -63,6 +63,7 @@ module Myparcel
           "F12" => "Collection order not processed, no collection service available",
           "F13" => "Collection order not processed, collection date too far in future",
           "G01" => "Shipment not yet processed.",
+          "G03" => "Delivery is delayed",
           "H01" => "Shipment refused by addressee. Return to Sender",
           "H02" => "Shipment return to Sender, address unknown",
           "H03" => "Shipment return to Sender. Not picked up as PostNL location.",
