@@ -34,7 +34,7 @@ module Myparcel
         codemap = POSTNL_STATUS_CODES.fetch(language)
         tracktrace.update(
           "description" => codemap[tracktrace["code"]],
-          "history" => tracktrace["history"].map { |hist| hist.update("description" => codemap.fetch(hist["code"])) }
+          "history" => tracktrace["history"].map { |hist| hist.update("description" => codemap[hist["code"]]) }
         )
       end
 
