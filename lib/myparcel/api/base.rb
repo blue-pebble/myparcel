@@ -53,21 +53,23 @@ module Myparcel
     private
 
     class UnprocessableEntity < MyparcelError
-      attr_reader :info, :message, :errors
+      attr_reader :info, :message, :errors, :raw_body
 
-      def initialize(info, message, errors)
+      def initialize(info, message, errors, raw_body=nil)
         @info = info
         @message = message
         @errors = errors
+        @raw_body = raw_body
       end
 
       def self.parse(data, info=nil)
+        raw_body = data
         payload = JSON.parse(data)
         message = payload.fetch("message", "Unknown error")
         errors = payload.fetch("errors", []).flat_map {|x| x.fetch("human", [])}
-        UnprocessableEntity.new(info, message, errors)
+        UnprocessableEntity.new(info, message, errors, raw_body)
       rescue => e
-        UnprocessableEntity.new(info, "Failed to parse response payload: #{e.class.name}", [e.message])
+        UnprocessableEntity.new(info, "Failed to parse response payload: #{e.class.name}", [e.message], raw_body)
       end
 
       def format
